@@ -11,11 +11,20 @@ const formatTrackData = (trackData: CurrentlyPlayingResponse): string => {
       .map((artist) => `[${artist.name}](${artist.external_urls.spotify})`)
       .join(", ");
 
+    let albumImage = "";
+    const smallestImageUrl = item.album?.images?.sort((a, b) =>
+      a.height < b.height ? -1 : 1
+    )[0].url;
+
+    if (smallestImageUrl) {
+      albumImage = `![album cover](${smallestImageUrl})`;
+    }
+
     const trackName = item.name;
 
     const preview = `([Preview here](${item.preview_url}))`;
 
-    return `${artists} - ${trackName} ${preview}`;
+    return `${albumImage} ${artists} - ${trackName} ${preview}`;
   }
 
   if (item.type === "episode") {
@@ -23,7 +32,7 @@ const formatTrackData = (trackData: CurrentlyPlayingResponse): string => {
     const episodeNameWithLink = `[${item.name}](${item.external_urls.spotify})`;
 
     let episodeImage = "";
-    const smallestImageUrl = item.images.sort((a, b) =>
+    const smallestImageUrl = item.images?.sort((a, b) =>
       a.height < b.height ? -1 : 1
     )[0].url;
 
