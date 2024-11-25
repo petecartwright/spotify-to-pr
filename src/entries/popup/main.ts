@@ -8,6 +8,8 @@ const imageUrl = new URL(logo, import.meta.url).href;
 // TODO: maybe we show nothing if we're not on github
 //       or we are on github and don't have an open PR editor open
 
+const accessToken = chrome.storage.local.get("spotifyAccessToken");
+
 document.querySelector("#app")!.innerHTML = `
   <img src="${imageUrl}" height="45" alt="" />
   <h1>Login</h1>
@@ -15,7 +17,7 @@ document.querySelector("#app")!.innerHTML = `
   Login
   </button>
 	<button type="button" name="writeToPrButton">
-    WriteToPR
+    Write To PR
   </button>
 `;
 
@@ -32,23 +34,5 @@ clickButtonElement.addEventListener("click", async () => {
 });
 
 writeToPrButtonElement.addEventListener("click", async () => {
-  //
-  //
-  // TODO: this should send a message just like the above
-  //       to get received by src/entries/background/main.ts
-  //       and then get the track and write
-  //
-  //
-  //
-  const [tab] = await chrome.tabs.query({
-    active: true,
-    lastFocusedWindow: true,
-  });
-  if (!tab?.id) return;
-  let track = await chrome.storage.local.get("track");
-  console.log("track", track);
-  chrome.tabs.sendMessage(tab.id, {
-    action: "write-to-pr",
-    track: track.track,
-  });
+  await chrome.runtime.sendMessage({ action: "getSong" });
 });

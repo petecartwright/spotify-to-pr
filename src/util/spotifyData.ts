@@ -33,7 +33,5 @@ export const getCurrentlyPlaying = async (): Promise<
   const currentlyPlayingSongData: CurrentlyPlayingResponse =
     await currentlyPlayingSong.json();
 
-  console.log("currentlyPlayingSongData", currentlyPlayingSongData);
-
   return currentlyPlayingSongData;
 };

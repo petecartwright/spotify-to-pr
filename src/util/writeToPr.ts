@@ -22,9 +22,11 @@ const formatTrackData = (trackData: CurrentlyPlayingResponse): string => {
 
     const trackName = item.name;
 
-    const preview = `([Preview here](${item.preview_url}))`;
+    const preview = `[**Preview**](${item.preview_url})`;
 
-    return `${albumImage} ${artists} - ${trackName} ${preview}`;
+    const artistsPlural = item.artists.length > 1;
+
+    return `${albumImage} \n **Artist${artistsPlural ? "s" : ""}**: ${artists} \n **Track**: ${trackName}\n ${preview}`;
   }
 
   if (item.type === "episode") {
@@ -40,10 +42,10 @@ const formatTrackData = (trackData: CurrentlyPlayingResponse): string => {
       episodeImage = `![episode art](${smallestImageUrl})`;
     }
 
-    const preview = `([Preview here](${item.audio_preview_url}))`;
+    const preview = `[**Preview**](${item.audio_preview_url})`;
 
     // TODO: make this look better
-    return `${episodeImage} ${showNameWithLink} - ${episodeNameWithLink} ${preview}`;
+    return `${episodeImage} \n **Show**: ${showNameWithLink} \n **Episode**: ${episodeNameWithLink}\n ${preview}`;
   }
 
   // should never get here but let's make TS happy
@@ -79,9 +81,9 @@ export const writeToPr = async (trackData: CurrentlyPlayingResponse) => {
     "\n" +
     prefix +
     //TODO: move ths to the format function and do diff stuff  based on track vs episode
-    "\nThis PR's soundtrack: \n🎶🎶 " +
+    "\nThis PR's soundtrack: \n" +
     trackText +
-    " 🎶🎶\n" +
+    "\n" +
     suffix +
     "\n" +
     afterSuffix;

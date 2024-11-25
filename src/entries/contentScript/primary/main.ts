@@ -17,13 +17,10 @@ renderContent(
   }
 );
 
-console.log("about to add listener");
 chrome.runtime.onMessage.addListener(async (message) => {
   // TODO: can we type these messages????
-  console.log("in content-script listener");
   if (message.action === "write-to-pr") {
     const track = message.track;
     await writeToPr(track);
   }
 });
-console.log("added listner");

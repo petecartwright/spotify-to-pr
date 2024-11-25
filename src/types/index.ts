@@ -150,7 +150,7 @@ interface Show {
   external_urls: { spotify: string };
   href: string;
   html_description: string;
-  id: string:
+  id: string;
   images: {
     height: number;
     url: string;
@@ -164,4 +164,10 @@ interface Show {
   total_episodes: number;
   type: "show";
   uri: string;
+}
+
+enum MessageActions {
+  login = "login",
+  getSong = "getSong",
+  writeToPr = "writeToPr",
 }

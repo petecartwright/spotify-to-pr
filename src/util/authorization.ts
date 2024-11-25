@@ -68,8 +68,6 @@ export const authorizeWithSpotify = async (): Promise<string | undefined> => {
   const scope = "user-read-currently-playing";
   const spotifyAuthZUrl = new URL("https://accounts.spotify.com/authorize");
 
-  await chrome.storage.local.set({ codeVerifier });
-
   const spotifyAuthZParams: SpotifyAuthZParams = {
     response_type: "code",
     client_id: spotifyClientId,
@@ -143,14 +141,12 @@ export const refreshSpotifyToken = async (): Promise<string | undefined> => {
   );
 
   // TODO: is this safe? maybe not? maybe we need a lil wrapper here
-  let refreshTokenData = await chrome.storage.local.get(
-    "spotify_refresh_token"
-  );
+  let refreshTokenData = await chrome.storage.local.get("spotifyRefreshToken");
 
   // TODO: actually handle failure
-  if (!refreshTokenData?.spotify_refresh_token) return;
+  if (!refreshTokenData?.spotifyRefreshToken) return;
 
-  const refreshToken = refreshTokenData.spotify_refresh_token;
+  const refreshToken = refreshTokenData.spotifyRefreshToken;
 
   const refreshTokenRequestParams: SpotifyRefreshTokenParams = {
     grant_type: "refresh_token",
