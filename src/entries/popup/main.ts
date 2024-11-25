@@ -2,7 +2,6 @@ import logo from "~/assets/logo.svg";
 import "./style.css";
 
 const imageUrl = new URL(logo, import.meta.url).href;
-let count = 0;
 
 // TODO: if logged in, show "Logout" and "Do The Things RENAME"
 
@@ -33,21 +32,23 @@ clickButtonElement.addEventListener("click", async () => {
 });
 
 writeToPrButtonElement.addEventListener("click", async () => {
+  //
+  //
+  // TODO: this should send a message just like the above
+  //       to get received by src/entries/background/main.ts
+  //       and then get the track and write
+  //
+  //
+  //
   const [tab] = await chrome.tabs.query({
     active: true,
     lastFocusedWindow: true,
   });
-
   if (!tab?.id) return;
-
   let track = await chrome.storage.local.get("track");
-
   console.log("track", track);
-
   chrome.tabs.sendMessage(tab.id, {
     action: "write-to-pr",
     track: track.track,
   });
 });
-
-// TODO: why can't i get the track here

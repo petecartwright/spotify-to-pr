@@ -3,7 +3,6 @@ import { getCurrentlyPlaying } from "~/util/spotifyData";
 
 chrome.runtime.onInstalled.addListener(() => {
   console.log("Extension installed");
-  console.log("chrome", chrome);
 });
 
 chrome.runtime.onMessage.addListener(async (message) => {
@@ -15,18 +14,19 @@ chrome.runtime.onMessage.addListener(async (message) => {
 
     const currTrack = await getCurrentlyPlaying();
 
-    if (currTrack?.currently_playing_type !== "track") return;
-
-    const storage = await chrome.storage.local.get();
-    console.log("currTrack", currTrack);
-    console.log("storage", storage);
+    if (
+      currTrack?.currently_playing_type !== "track" &&
+      currTrack?.currently_playing_type !== "episode"
+    ) {
+      console.log(
+        `Not a track or an episode. No idea what to do with this. It's a ${currTrack?.currently_playing_type}`
+      );
+      return;
+    }
     await chrome.storage.local.set({ track: currTrack });
 
-    chrome.runtime.sendMessage({
-      action: "write-to-pr",
-      track: currTrack,
-    });
-    // send a message to let the content script
-    // know to write the text to gh
+    // // TODO: remove, just   for debugging
+    const storage = await chrome.storage.local.get();
+    console.log("storage", storage);
   }
 });

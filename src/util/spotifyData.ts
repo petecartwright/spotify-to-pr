@@ -1,118 +1,7 @@
-export interface CurrentlyPlayingResponse {
-  device: {
-    id: string;
-    is_active: boolean;
-    is_private_session: boolean;
-    is_restricted: boolean;
-    name: string;
-    type: string;
-    volume_percent: number;
-    supports_volume: boolean;
-  };
-  repeat_state: string;
-  shuffle_state: boolean;
-  context?: {
-    type: string;
-    href: string;
-    external_urls: {
-      spotify: string;
-    };
-    uri: string;
-  };
-  timestamp: number;
-  progress_ms: number;
-  is_playing: boolean;
-  item: {
-    album: {
-      album_type: string;
-      total_tracks: number;
-      available_markets: string[];
-      external_urls: {
-        spotify: string;
-      };
-      href: string;
-      id: string;
-      images: {
-        url: string;
-        height: number;
-        width: number;
-      }[];
-      name: string;
-      release_date: string;
-      release_date_precision: string;
-      restrictions: {
-        reason: string;
-      };
-      type: string;
-      uri: string;
-      artists: {
-        external_urls: {
-          spotify: string;
-        };
-        href: string;
-        id: string;
-        name: string;
-        type: string;
-        uri: string;
-      }[];
-    };
-    artists: [
-      {
-        external_urls: {
-          spotify: string;
-        };
-        href: string;
-        id: string;
-        name: string;
-        type: string;
-        uri: string;
-      },
-    ];
-    available_markets: string[];
-    disc_number: number;
-    duration_ms: number;
-    explicit: boolean;
-    external_ids: {
-      isrc: string;
-      ean: string;
-      upc: string;
-    };
-    external_urls: {
-      spotify: string;
-    };
-    href: string;
-    id: string;
-    is_playable: boolean;
-    linked_from: {};
-    restrictions: {
-      reason: string;
-    };
-    name: string;
-    popularity: 0;
-    preview_url: string;
-    track_number: 0;
-    type: "track";
-    uri: string;
-    is_local: boolean;
-  };
-  currently_playing_type: string;
-  actions: {
-    interrupting_playback: boolean;
-    pausing: boolean;
-    resuming: boolean;
-    seeking: boolean;
-    skipping_next: boolean;
-    skipping_prev: boolean;
-    toggling_repeat_context: boolean;
-    toggling_shuffle: boolean;
-    toggling_repeat_track: boolean;
-    transferring_playback: boolean;
-  };
-}
+import type { CurrentlyPlayingResponse } from "../types";
 
-// TODO: some common way of handling failed auth and
+// TODO: some common way of handling failed auth
 
-// what is the type here
 export const getCurrentlyPlaying = async (): Promise<
   CurrentlyPlayingResponse | undefined
 > => {
@@ -123,7 +12,11 @@ export const getCurrentlyPlaying = async (): Promise<
     await chrome.storage.local.get("spotify_access_token")
   ).spotify_access_token;
 
-  const baseUrl = "https://api.spotify.com/v1/me/player/currently-playing";
+  // base spotify API URL plus the "additional_types" param
+  // so we get episodes, not just tracks
+  // https://developer.spotify.com/documentation/web-api/reference/get-the-users-currently-playing-track
+  const baseUrl =
+    "https://api.spotify.com/v1/me/player/currently-playing?additional_types=episode";
 
   const currentlyPlayingSong = await fetch(baseUrl, {
     headers: {
@@ -139,6 +32,8 @@ export const getCurrentlyPlaying = async (): Promise<
   // TODO: handle failure
   const currentlyPlayingSongData: CurrentlyPlayingResponse =
     await currentlyPlayingSong.json();
+
+  console.log("currentlyPlayingSongData", currentlyPlayingSongData);
 
   return currentlyPlayingSongData;
 };
