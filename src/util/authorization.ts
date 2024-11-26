@@ -1,6 +1,8 @@
 // largely borrowed from the Spotify AuthZ With PKCE docs:
 // https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow
 
+import { STORAGE_KEYS } from "./keys";
+
 type SpotifyAuthZParams = {
   client_id: string;
   code_challenge: string;
@@ -121,12 +123,13 @@ export const authorizeWithSpotify = async (): Promise<string | undefined> => {
   if (!spotifyAccessTokenResponse.access_token) return;
 
   chrome.storage.local.set({
-    spotify_access_token: spotifyAccessTokenResponse.access_token,
+    [STORAGE_KEYS.spotifyAccessToken]: spotifyAccessTokenResponse.access_token,
   });
 
   if (spotifyAccessTokenResponse.refresh_token) {
     chrome.storage.local.set({
-      spotify_refresh_token: spotifyAccessTokenResponse.refresh_token,
+      [STORAGE_KEYS.spotifyRefreshToken]:
+        spotifyAccessTokenResponse.refresh_token,
     });
   }
 
@@ -140,14 +143,14 @@ export const refreshSpotifyToken = async (): Promise<string | undefined> => {
     "https://accounts.spotify.com/api/token"
   );
 
-  // TODO: is this safe? maybe not? maybe we need a lil wrapper here
-  let refreshTokenData = await chrome.storage.local.get("spotifyRefreshToken");
+  let refreshTokenData = await chrome.storage.local.get(
+    STORAGE_KEYS.spotifyRefreshToken
+  );
 
   // TODO: actually handle failure
   if (!refreshTokenData?.spotifyRefreshToken) return;
 
   const refreshToken = refreshTokenData.spotifyRefreshToken;
-
   const refreshTokenRequestParams: SpotifyRefreshTokenParams = {
     grant_type: "refresh_token",
     refresh_token: refreshToken,

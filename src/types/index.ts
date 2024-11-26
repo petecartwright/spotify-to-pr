@@ -165,9 +165,3 @@ interface Show {
   type: "show";
   uri: string;
 }
-
-enum MessageActions {
-  login = "login",
-  getSong = "getSong",
-  writeToPr = "writeToPr",
-}

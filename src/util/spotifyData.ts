@@ -1,15 +1,14 @@
 import type { CurrentlyPlayingResponse } from "../types";
+import { STORAGE_KEYS } from "./keys";
 
 // TODO: some common way of handling failed auth
 
 export const getCurrentlyPlaying = async (): Promise<
   CurrentlyPlayingResponse | undefined
 > => {
-  await chrome.storage.local.remove("track");
-
   // TODO: make this string an enum or whatever somewhere
   const spotifyAccessToken = (
-    await chrome.storage.local.get("spotify_access_token")
+    await chrome.storage.local.get(STORAGE_KEYS.spotifyAccessToken)
   ).spotify_access_token;
 
   // base spotify API URL plus the "additional_types" param

@@ -1,5 +1,6 @@
 import logo from "~/assets/logo.svg";
 import "./style.css";
+import { MESSAGE_ACTIONS } from "~/util/keys";
 
 const imageUrl = new URL(logo, import.meta.url).href;
 
@@ -7,8 +8,6 @@ const imageUrl = new URL(logo, import.meta.url).href;
 
 // TODO: maybe we show nothing if we're not on github
 //       or we are on github and don't have an open PR editor open
-
-const accessToken = chrome.storage.local.get("spotifyAccessToken");
 
 document.querySelector("#app")!.innerHTML = `
   <img src="${imageUrl}" height="45" alt="" />
@@ -30,9 +29,10 @@ const writeToPrButtonElement = document.querySelector(
 ) as HTMLButtonElement;
 
 clickButtonElement.addEventListener("click", async () => {
-  await chrome.runtime.sendMessage({ action: "login" });
+  await chrome.runtime.sendMessage({ action: MESSAGE_ACTIONS.login });
 });
 
+// TODO: rename
 writeToPrButtonElement.addEventListener("click", async () => {
-  await chrome.runtime.sendMessage({ action: "getSong" });
+  await chrome.runtime.sendMessage({ action: MESSAGE_ACTIONS.getSong });
 });

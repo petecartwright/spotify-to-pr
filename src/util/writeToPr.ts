@@ -21,12 +21,11 @@ const formatTrackData = (trackData: CurrentlyPlayingResponse): string => {
     }
 
     const trackName = item.name;
-
     const preview = `[**Preview**](${item.preview_url})`;
 
     const artistsPlural = item.artists.length > 1;
 
-    return `${albumImage} \n **Artist${artistsPlural ? "s" : ""}**: ${artists} \n **Track**: ${trackName}\n ${preview}`;
+    return `${albumImage ? albumImage + "\n" : ""}**Artist${artistsPlural ? "s" : ""}**: ${artists} \n **Track**: ${trackName}\n ${preview}`;
   }
 
   if (item.type === "episode") {
