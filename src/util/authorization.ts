@@ -126,12 +126,19 @@ export const authorizeWithSpotify = async (): Promise<string | undefined> => {
     [STORAGE_KEYS.spotifyAccessToken]: spotifyAccessTokenResponse.access_token,
   });
 
-  if (spotifyAccessTokenResponse.refresh_token) {
-    chrome.storage.local.set({
-      [STORAGE_KEYS.spotifyRefreshToken]:
-        spotifyAccessTokenResponse.refresh_token,
-    });
-  }
+  chrome.storage.local.set({
+    [STORAGE_KEYS.spotifyRefreshToken]:
+      spotifyAccessTokenResponse.refresh_token,
+  });
+
+  const now = new Date();
+  const expirationTime = now.setSeconds(
+    now.getSeconds() + spotifyAccessTokenResponse.expires_in
+  );
+
+  chrome.storage.local.set({
+    [STORAGE_KEYS.expiresAt]: expirationTime,
+  });
 
   return spotifyAccessTokenResponse.access_token;
 };

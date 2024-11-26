@@ -1,4 +1,5 @@
 export const STORAGE_KEYS = {
+  expiresAt: "expiresAt",
   spotifyAccessToken: "spotifyAccessToken",
   spotifyRefreshToken: "spotifyRefreshToken",
 };
