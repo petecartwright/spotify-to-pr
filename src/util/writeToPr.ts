@@ -79,6 +79,8 @@ export const writeToPr = async (trackData: CurrentlyPlayingResponse) => {
     beforePrefix +
     "\n" +
     prefix +
+    "\n" +
+    "> [!NOTE]" +
     //TODO: move ths to the format function and do diff stuff  based on track vs episode
     "\nThis PR's soundtrack: \n" +
     trackText +
