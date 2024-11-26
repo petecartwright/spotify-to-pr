@@ -9,7 +9,7 @@ export const getCurrentlyPlaying = async (): Promise<
   // TODO: make this string an enum or whatever somewhere
   const spotifyAccessToken = (
     await chrome.storage.local.get(STORAGE_KEYS.spotifyAccessToken)
-  ).spotify_access_token;
+  ).spotifyAccessToken;
 
   // base spotify API URL plus the "additional_types" param
   // so we get episodes, not just tracks
@@ -22,15 +22,36 @@ export const getCurrentlyPlaying = async (): Promise<
       Authorization: `Bearer ${spotifyAccessToken}`,
     },
   });
+  console.log("currentlyPlayingSong", currentlyPlayingSong);
 
+  // Spotify API response types here:
+  // https://developer.spotify.com/documentation/web-api/reference/get-the-users-currently-playing-track#:~:text=of%20each%20object.-,Response,-200
   if (currentlyPlayingSong.status === 204) {
     // nothing is playing rn
+    // TODO: handle this case
+    return;
+  }
+
+  if (currentlyPlayingSong.status === 401) {
+    // TODO: reauthenticate
+    return;
+  }
+
+  if (currentlyPlayingSong.status === 403) {
+    // TODO: idk, make sure they have a spotify account
+    return;
+  }
+
+  if (currentlyPlayingSong.status === 429) {
+    // TODO: exceeded rate limits, uhoh
     return;
   }
 
   // TODO: handle failure
   const currentlyPlayingSongData: CurrentlyPlayingResponse =
     await currentlyPlayingSong.json();
+
+  console.log("currentlyPlayingSongData", currentlyPlayingSongData);
 
   return currentlyPlayingSongData;
 };
