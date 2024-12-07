@@ -20,7 +20,7 @@ const manifest = {
       matches: ["https://github.com/*", "https://*.github.com/*"],
     },
   ],
-  permissions: ["identity", "storage"],
+  permissions: ["active_tab", "identity", "storage"],
   host_permissions: ["https://github.com/*", "https://*.github.com/*"],
   // TODO: get new icons
   icons: {
