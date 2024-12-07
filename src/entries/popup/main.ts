@@ -4,6 +4,12 @@ import { MESSAGE_ACTIONS, STORAGE_KEYS } from "~/util/keys";
 
 const imageUrl = new URL(logo, import.meta.url).href;
 
+const loginButton = '<button type="button" name="loginButton">Login</button>';
+const logoutButton =
+  '<button type="button" name="logoutButton">Logout</button>';
+const writeToPrButton =
+  '<button type="button" name="writeToPrButton">Write To PR</button>';
+
 const urlIsGithub = async () => {
   // if we're not on github.com AND don't see an open pr comment, get upset
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -24,13 +30,6 @@ const main = async () => {
 
   const loginUnexpired = Date.now() < loginExpiration;
 
-  let loginButton = "";
-  if (!loginUnexpired) {
-    loginButton = `<button type="button" name="loginButton">
-  Login
-  </button>`;
-  }
-
   // TODO: only show on approp github pages????
   //       and need to check
 
@@ -44,32 +43,33 @@ const main = async () => {
 
   document.querySelector("#app")!.innerHTML = `
   <img src="${imageUrl}" height="45" alt="" />
-	${loginButton}
-	${
-    loginButton
-      ? ""
-      : `<h1>Login</h1>
-            <button type="button" name="writeToPrButton">
-            Write To PR
-        </button>`
-  }
-`;
+  ${loginUnexpired ? logoutButton : loginButton}
+  ${loginUnexpired ? writeToPrButton : ""}
+	`;
 
-  if (loginButton) {
-    const loginButtonElement = document.querySelector(
-      "button[name='loginButton']"
-    ) as HTMLButtonElement;
-
-    loginButtonElement.addEventListener("click", async () => {
-      await chrome.runtime.sendMessage({ action: MESSAGE_ACTIONS.login });
-    });
-  } else {
+  if (loginUnexpired) {
     const writeToPrButtonElement = document.querySelector(
       "button[name='writeToPrButton']"
     ) as HTMLButtonElement;
 
     writeToPrButtonElement.addEventListener("click", async () => {
       await chrome.runtime.sendMessage({ action: MESSAGE_ACTIONS.getSong });
+    });
+
+    const logoutButtonElement = document.querySelector(
+      "button[name='logoutButton']"
+    ) as HTMLButtonElement;
+
+    logoutButtonElement.addEventListener("click", async () => {
+      await chrome.runtime.sendMessage({ action: MESSAGE_ACTIONS.logout });
+    });
+  } else {
+    const loginButtonElement = document.querySelector(
+      "button[name='loginButton']"
+    ) as HTMLButtonElement;
+
+    loginButtonElement.addEventListener("click", async () => {
+      await chrome.runtime.sendMessage({ action: MESSAGE_ACTIONS.login });
     });
   }
 };

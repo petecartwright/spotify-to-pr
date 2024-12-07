@@ -1,10 +1,14 @@
-import { authorizeWithSpotify } from "~/util/authorization";
+import { authorizeWithSpotify, logout } from "~/util/authorization";
 import { MESSAGE_ACTIONS } from "~/util/keys";
 import { getCurrentlyPlaying } from "~/util/spotifyData";
 
 chrome.runtime.onMessage.addListener(async (message) => {
   if (message.action === MESSAGE_ACTIONS.login) {
     const accessToken = await authorizeWithSpotify();
+  }
+
+  if (message.action === MESSAGE_ACTIONS.login) {
+    await logout();
   }
 
   if (message.action === MESSAGE_ACTIONS.getSong) {

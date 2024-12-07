@@ -6,6 +6,7 @@ export const STORAGE_KEYS = {
 
 export const MESSAGE_ACTIONS = {
   login: "login",
+  logout: "logout",
   getSong: "getSong",
   writeToPr: "writeToPr",
 };
