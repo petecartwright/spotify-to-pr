@@ -17,7 +17,7 @@ const urlIsGithub = async () => {
   if (!tab.url) throw new Error("not in a tab????");
   const currentUrl = new URL(tab.url);
 
-  return currentUrl.hostname !== "github.com";
+  return currentUrl.hostname === "github.com";
 };
 
 const main = async () => {
@@ -41,7 +41,7 @@ const main = async () => {
   // TODO: maybe we show nothing if we're not on github
   //       or we are on github and don't have an open PR editor open
 
-  document.querySelector("#app")!.innerHTML = `
+  document.querySelector("#root")!.innerHTML = `
   <img src="${imageUrl}" height="45" alt="" />
   ${loginUnexpired ? logoutButton : loginButton}
   ${loginUnexpired ? writeToPrButton : ""}
