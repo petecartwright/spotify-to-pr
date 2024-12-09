@@ -10,19 +10,33 @@ const logoutButton =
 const writeToPrButton =
   '<button type="button" name="writeToPrButton">Write To PR</button>';
 
-const urlIsGithub = async () => {
+const urlIsGithub = async (): Promise<boolean> => {
   // if we're not on github.com AND don't see an open pr comment, get upset
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  // TODO: this could be better
-  if (!tab.url) throw new Error("not in a tab????");
-  const currentUrl = new URL(tab.url);
 
-  return currentUrl.hostname === "github.com";
+  // TODO: this could be better
+  if (!tab.url || !tab.id) throw new Error("not in a tab????");
+
+  const currentUrl = new URL(tab.url);
+  console.log("currentUrl.hostname", currentUrl.hostname);
+  if (currentUrl.hostname !== "github.com") return false;
+
+  const prBoxIsOnPage = await chrome.tabs.sendMessage(tab.id, {
+    action: MESSAGE_ACTIONS.confirmPrBoxOnPage,
+  });
+
+  return prBoxIsOnPage;
 };
 
 const main = async () => {
+  const documentRoot = document.querySelector("#root")!;
   const isGithub = await urlIsGithub();
-  if (!isGithub) return;
+
+  if (!isGithub) {
+    // TODO: make this nicer
+    documentRoot.innerHTML = `<h2>only works on github!</h2>`;
+    return;
+  }
 
   const loginExpiration = (
     await chrome.storage.local.get(STORAGE_KEYS.expiresAt)
@@ -30,18 +44,14 @@ const main = async () => {
 
   const loginUnexpired = Date.now() < loginExpiration;
 
-  // TODO: only show on approp github pages????
-  //       and need to check
-
-  // TODO: get rid of the popup altogether
+  // TODO: get rid of the popup altogether??
+  //
   //    if we click the button, we try to hit the API
   //    if it works, we just do it
   //    if we're unauth'd, direct to auth flow
+  //    but where do we log out?
 
-  // TODO: maybe we show nothing if we're not on github
-  //       or we are on github and don't have an open PR editor open
-
-  document.querySelector("#root")!.innerHTML = `
+  documentRoot.innerHTML = `
   <img src="${imageUrl}" height="45" alt="" />
   ${loginUnexpired ? logoutButton : loginButton}
   ${loginUnexpired ? writeToPrButton : ""}

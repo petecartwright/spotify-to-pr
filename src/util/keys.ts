@@ -5,8 +5,9 @@ export const STORAGE_KEYS = {
 };
 
 export const MESSAGE_ACTIONS = {
+  confirmPrBoxOnPage: "confirmPrBoxOnPage",
+  getSong: "getSong",
   login: "login",
   logout: "logout",
-  getSong: "getSong",
   writeToPr: "writeToPr",
 };

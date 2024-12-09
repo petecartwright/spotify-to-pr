@@ -7,7 +7,7 @@ chrome.runtime.onMessage.addListener(async (message) => {
     const accessToken = await authorizeWithSpotify();
   }
 
-  if (message.action === MESSAGE_ACTIONS.login) {
+  if (message.action === MESSAGE_ACTIONS.logout) {
     await logout();
   }
 

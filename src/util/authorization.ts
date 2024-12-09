@@ -178,7 +178,7 @@ export const refreshSpotifyToken = async (): Promise<string | undefined> => {
 };
 
 export const logout = async () => {
-  for (const storageKey of Object(STORAGE_KEYS).keys()) {
+  for (const storageKey of Object.keys(STORAGE_KEYS)) {
     chrome.storage.local.remove(storageKey);
   }
 };
