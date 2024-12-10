@@ -52,7 +52,7 @@ Minifies and optimizes extension build
 ```sh
 npm run build
 ```
-
+g
 ### Load extension in browser
 
 Loads the contents of the dist directory into the specified browser
