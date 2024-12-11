@@ -4,7 +4,7 @@ import { getCurrentlyPlaying } from "~/util/spotifyData";
 
 chrome.runtime.onMessage.addListener(async (message) => {
   if (message.action === MESSAGE_ACTIONS.login) {
-    const accessToken = await authorizeWithSpotify();
+    await authorizeWithSpotify();
   }
 
   if (message.action === MESSAGE_ACTIONS.logout) {
@@ -18,10 +18,9 @@ chrome.runtime.onMessage.addListener(async (message) => {
       currTrack?.currently_playing_type !== "track" &&
       currTrack?.currently_playing_type !== "episode"
     ) {
-      console.log(
+      throw Error(
         `Not a track or an episode. No idea what to do with this. It's a ${currTrack?.currently_playing_type}`
       );
-      return;
     }
 
     const [tab] = await chrome.tabs.query({

@@ -1,7 +1,8 @@
 import { CurrentlyPlayingResponse } from "~/types";
 
 const prefix = "<!--- Added by Spotify to PR chrome extention --->";
-const suffix = "<!--- Go to <<some link here> for more info! --->";
+const suffix =
+  "<!--- Go to https://github.com/petecartwright/spotify-to-pr for more info! --->";
 
 const formatTrackData = (trackData: CurrentlyPlayingResponse): string => {
   const item = trackData.item;

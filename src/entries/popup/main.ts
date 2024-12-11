@@ -18,7 +18,7 @@ const urlIsGithub = async (): Promise<boolean> => {
   if (!tab.url || !tab.id) throw new Error("not in a tab????");
 
   const currentUrl = new URL(tab.url);
-  console.log("currentUrl.hostname", currentUrl.hostname);
+
   if (currentUrl.hostname !== "github.com") return false;
 
   const prBoxIsOnPage = await chrome.tabs.sendMessage(tab.id, {

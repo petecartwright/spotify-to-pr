@@ -22,7 +22,6 @@ export const getCurrentlyPlaying = async (): Promise<
       Authorization: `Bearer ${spotifyAccessToken}`,
     },
   });
-  console.log("currentlyPlayingSong", currentlyPlayingSong);
 
   // Spotify API response types here:
   // https://developer.spotify.com/documentation/web-api/reference/get-the-users-currently-playing-track#:~:text=of%20each%20object.-,Response,-200
@@ -50,8 +49,6 @@ export const getCurrentlyPlaying = async (): Promise<
   // TODO: handle failure
   const currentlyPlayingSongData: CurrentlyPlayingResponse =
     await currentlyPlayingSong.json();
-
-  console.log("currentlyPlayingSongData", currentlyPlayingSongData);
 
   return currentlyPlayingSongData;
 };
