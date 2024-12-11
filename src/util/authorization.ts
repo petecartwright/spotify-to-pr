@@ -57,7 +57,12 @@ const base64encode = (input: ArrayBuffer) => {
 
 export const authorizeWithSpotify = async (): Promise<string | undefined> => {
   // TODO: move this to common storage, set on init??
-  const spotifyClientId = "473534ffb69d46cfa2064a04033ebfb3";
+
+  const spotifyClientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+
+  if (!spotifyClientId) {
+    throw Error("Valid Spotify Client ID required in .env");
+  }
 
   // TODO: can i make a test request to see if we need to refresh the token?
 
