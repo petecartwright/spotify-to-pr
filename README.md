@@ -20,10 +20,11 @@ This isn't on the Chrome Web Store (and probably never will be) so you'll need t
    1. Go to `chrome://extensions` in your browser.
    2. Turn on "Developer Mode" via the toggle
    3. Click "Load Unpacked" and point it at the `/dist` directory that you built in step 2
+1. Get your extension's ID. Go back to the Spotify web api dashboard and change your "Redirect URIs" to `https://<extensionid>.chromiumapp.org`
 
 ## Usage
 
-When you have a GitHub PR comment box open, click on the extension icon. If you haven't used it before, you'll have to authenticate with Spotify first.
+When you have a GitHub PR comment box open, click on the extension icon. If you haven't used it before or your auth has expired and can't be refreshed, you'll have to authenticate with Spotify first.
 
 Then click "Write to PR" to grab the song or podcast you're listening to and write it to your PR comment.
 
