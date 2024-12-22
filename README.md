@@ -19,7 +19,7 @@ This isn't on the Chrome Web Store (and probably never will be) so you'll need t
 1. Install the extension:
    1. Go to `chrome://extensions` in your browser.
    2. Turn on "Developer Mode" via the toggle
-   3. Click "Load Unpacked" and point it at the `/dist` directory that you built in step 2
+   3. Click "Load Unpacked" and point it at the `/dist` directory that you built in step 4
 1. Get your extension's ID. Go back to the Spotify web api dashboard and change your "Redirect URIs" to `https://<extensionid>.chromiumapp.org`
 
 ## Usage
