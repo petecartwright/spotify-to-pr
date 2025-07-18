@@ -10,7 +10,7 @@ Maybe you just like the little pictures?
 
 ## Installation
 
-This isn't on the Chrome Web Store (and probably never will be) so you'll need to install it yourself.
+This isn't on the Chrome Web Store (and probably never will be[^1]) so you'll need to install it yourself.
 
 1. Clone this repo
 1. Register for a Spotify Web API Client ID [here](https://developer.spotify.com/documentation/web-api)
@@ -31,3 +31,8 @@ When you have a GitHub PR comment box open, click on the extension icon. If you 
 Then click "Write to PR" to grab the song or podcast you're listening to and write it to your PR comment.
 
 If there's already a song in there, it will replace it for you.
+
+[^1]: for a bunch of reasons! The main two are
+
+1. I don't really want to host a backend for this
+2. Even more importantly, as of May 2025, Spotify only approves non-developer API access for registered businesses with >250K MAU. I am not that. 🪦
