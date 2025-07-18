@@ -6,7 +6,7 @@
   "description": "Add your currently playing songs to your PR description.",
   "type": "module",
   "scripts": {
-    "build": "tsc && vite build",
+    "build": "npm i && tsc && vite build",
     "watch": "vite build --watch --mode development --minify false",
     "dev": "vite",
     "serve:firefox": "web-ext run --start-url \"about:debugging#/runtime/this-firefox\"  --source-dir ./dist/",

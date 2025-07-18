@@ -15,12 +15,14 @@ This isn't on the Chrome Web Store (and probably never will be) so you'll need t
 1. Clone this repo
 1. Register for a Spotify Web API Client ID [here](https://developer.spotify.com/documentation/web-api)
 1. Pop that client ID in your `.env` file
-1. run `npm i` and `npm run build`
-1. Install the extension:
+1. In your terminal, run `npm run build`
+   1. This will install all dependencies and create a `/dist` folder with the built extension
+1. Install the extension into Chrome:
    1. Go to `chrome://extensions` in your browser.
    2. Turn on "Developer Mode" via the toggle
-   3. Click "Load Unpacked" and point it at the `/dist` directory that you built in step 4
-1. Get your extension's ID. Go back to the Spotify web api dashboard and change your "Redirect URIs" to `https://<extensionid>.chromiumapp.org`
+   3. Click "Load Unpacked" and point it at the `/dist` folder that you built in step 4
+1. Get your extension's ID (it's on the card on the `chrome://extensions` page )
+1. Go to you [Spotify for Developers Dashboard](https://developer.spotify.com/dashboard), click on your app, and change your "Redirect URIs" to `https://<extensionid>.chromiumapp.org`
 
 ## Usage
 
