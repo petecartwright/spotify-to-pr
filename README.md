@@ -32,7 +32,4 @@ Then click "Write to PR" to grab the song or podcast you're listening to and wri
 
 If there's already a song in there, it will replace it for you.
 
-[^1]: for a bunch of reasons! The main two are
-
-1. I don't really want to host a backend for this
-2. Even more importantly, as of May 2025, Spotify only approves non-developer API access for registered businesses with >250K MAU. I am not that. 🪦
+[^1]: for a bunch of reasons! The main two are a) I don't really want to host a backend for this, and b) even more importantly, as of May 2025, Spotify only approves non-developer API access for registered businesses with >250K MAU. I am not that. 🪦
